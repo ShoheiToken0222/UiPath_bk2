@@ -1,0 +1,111 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="入金手数料入力" mva:VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="1514,2238" sap2010:WorkflowViewState.IdRef="入金手数料入力_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib" xmlns:uit="http://schemas.uipath.com/workflow/activities/terminal" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>UiPath.Terminal</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Terminal.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Terminal</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="入金手数料入力" sap:VirtualizedContainerService.HintSize="476,2073" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <uit:TerminalSession ContinueOnError="{x:Null}" ExistingConnection="{x:Null}" OutputConnection="{x:Null}" CloseConnection="True" ConnectionString="{}{'AttachExisting':false,'ConnectionType':2,'EhllBasicMode':false,'EhllDll':'C:\\Program Files (x86)\\IBM\\EHLLAPI\\EHLAPI32.dll','EhllEnhanced':false,'EhllFunction':'hllapi','EhllSession':'A','Host':null,'Mode':1,'Port':23,'Profile':null,'ProviderType':4,'ShowTerminal':true,'TerminalType':0}" DelayMS="1000" DisplayName="ターミナルセッション" sap:VirtualizedContainerService.HintSize="434,1981" sap2010:WorkflowViewState.IdRef="TerminalSession_1" TimeoutMS="50000">
+      <uit:TerminalSession.Body>
+        <ActivityAction x:TypeArguments="uit:TerminalConnection">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="uit:TerminalConnection" Name="terminalSession" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="実行" sap:VirtualizedContainerService.HintSize="376,1882" sap2010:WorkflowViewState.IdRef="Sequence_2">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <uit:TerminalSetField DelayMS="300" DisplayName="&quot;フィールドを設定 (03)&quot;" FollowedBy="TTTTTTTTTT" sap:VirtualizedContainerService.HintSize="334,115" sap2010:WorkflowViewState.IdRef="TerminalSetField_1" Index="1" LabeledBy="番号を入力して下さい  " Text="03" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalMoveCursor Column="54" DelayMS="300" DisplayName="カーソルを移動" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="TerminalMoveCursor_1" Row="16" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSendControlKey DelayMS="1000" DisplayName="コントロールキーを送信" sap:VirtualizedContainerService.HintSize="334,61" sap2010:WorkflowViewState.IdRef="TerminalSendControlKey_1" Key="Transmit" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSetField DelayMS="300" DisplayName="&quot;フィールドを設定 (01)&quot;" sap:VirtualizedContainerService.HintSize="334,115" sap2010:WorkflowViewState.IdRef="TerminalSetField_2" Index="1" LabeledBy="番号を入力して下さい  " Text="01" TimeoutMS="5000" WaitType="READY">
+              <uit:TerminalSetField.FollowedBy>
+                <InArgument x:TypeArguments="x:String">
+                  <Literal x:TypeArguments="x:String" Value="" />
+                </InArgument>
+              </uit:TerminalSetField.FollowedBy>
+            </uit:TerminalSetField>
+            <uit:TerminalMoveCursor Column="50" DelayMS="300" DisplayName="カーソルを移動" sap2010:WorkflowViewState.IdRef="TerminalMoveCursor_2" Row="21" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSendControlKey DelayMS="1000" DisplayName="コントロールキーを送信" sap2010:WorkflowViewState.IdRef="TerminalSendControlKey_2" Key="Transmit" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSetField DelayMS="300" DisplayName="&quot;フィールドを設定 (03)&quot;" sap2010:WorkflowViewState.IdRef="TerminalSetField_3" Index="1" LabeledBy="99 サイン・オフ　　　　　　　　  " Text="03" TimeoutMS="5000" WaitType="READY">
+              <uit:TerminalSetField.FollowedBy>
+                <InArgument x:TypeArguments="x:String">
+                  <Literal x:TypeArguments="x:String" Value="" />
+                </InArgument>
+              </uit:TerminalSetField.FollowedBy>
+            </uit:TerminalSetField>
+            <uit:TerminalMoveCursor Column="53" DelayMS="300" DisplayName="カーソルを移動" sap2010:WorkflowViewState.IdRef="TerminalMoveCursor_3" Row="23" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSendControlKey DelayMS="1000" DisplayName="コントロールキーを送信" sap2010:WorkflowViewState.IdRef="TerminalSendControlKey_3" Key="Transmit" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSetField DelayMS="300" DisplayName="&quot;フィールドを設定 (1)&quot;" FollowedBy="1:登録 2:変更 3:削除 8:照会        " sap2010:WorkflowViewState.IdRef="TerminalSetField_4" Index="1" LabeledBy="処理区分:  " Text="1" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSetField DelayMS="300" DisplayName="&quot;フィールドを設定 (190396)&quot;" FollowedBy="号室:  " sap2010:WorkflowViewState.IdRef="TerminalSetField_5" Index="1" LabeledBy="物件№　:  " Text="190396" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSetField DelayMS="300" DisplayName="&quot;フィールドを設定 (00103)&quot;" FollowedBy="連番:  " sap2010:WorkflowViewState.IdRef="TerminalSetField_6" Index="1" LabeledBy="号室:  " Text="00103" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalMoveCursor Column="47" DelayMS="300" DisplayName="カーソルを移動" sap2010:WorkflowViewState.IdRef="TerminalMoveCursor_4" Row="5" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSendControlKey DelayMS="1000" DisplayName="コントロールキーを送信" sap2010:WorkflowViewState.IdRef="TerminalSendControlKey_4" Key="F4" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSetField DelayMS="300" DisplayName="&quot;フィールドを設定 (1)&quot;" FollowedBy="005" sap2010:WorkflowViewState.IdRef="TerminalSetField_7" Index="1" LabeledBy="*" Text="1" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSendControlKey DelayMS="1000" DisplayName="コントロールキーを送信" sap2010:WorkflowViewState.IdRef="TerminalSendControlKey_5" Key="F9" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSetField DelayMS="300" DisplayName="&quot;フィールドを設定 (00013297947)&quot;" FollowedBy="実行:確認 F3 :終了F4 :検索        " sap2010:WorkflowViewState.IdRef="TerminalSetField_8" Index="1" LabeledBy="仮受金№:  " Text="00013297947" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalMoveCursor Column="29" DelayMS="300" DisplayName="カーソルを移動" sap2010:WorkflowViewState.IdRef="TerminalMoveCursor_5" Row="7" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSendControlKey DelayMS="1000" DisplayName="コントロールキーを送信" sap2010:WorkflowViewState.IdRef="TerminalSendControlKey_6" Key="Transmit" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSetField DelayMS="300" DisplayName="&quot;フィールドを設定 (3)&quot;" FollowedBy="1:自社仲介  " sap2010:WorkflowViewState.IdRef="TerminalSetField_9" Index="1" LabeledBy="手数料区分　:  " Text="3" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSetField DelayMS="300" DisplayName="&quot;フィールドを設定 (1)&quot;" FollowedBy="1:法人企業  " sap2010:WorkflowViewState.IdRef="TerminalSetField_10" Index="1" LabeledBy="法人仲介区分:  " Text="1" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSetField DelayMS="300" DisplayName="&quot;フィールドを設定 (3300)&quot;" FollowedBy="手数料区分　:  " sap2010:WorkflowViewState.IdRef="TerminalSetField_11" Index="1" LabeledBy="消込額:  " Text="3300" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalMoveCursor Column="78" DelayMS="300" DisplayName="カーソルを移動" sap2010:WorkflowViewState.IdRef="TerminalMoveCursor_6" Row="15" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSendControlKey DelayMS="1000" DisplayName="コントロールキーを送信" sap2010:WorkflowViewState.IdRef="TerminalSendControlKey_7" Key="F3" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSendControlKey DelayMS="1000" DisplayName="コントロールキーを送信" sap2010:WorkflowViewState.IdRef="TerminalSendControlKey_8" Key="F3" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSendControlKey DelayMS="1000" DisplayName="コントロールキーを送信" sap2010:WorkflowViewState.IdRef="TerminalSendControlKey_9" Key="F3" TimeoutMS="5000" WaitType="READY" />
+          </Sequence>
+        </ActivityAction>
+      </uit:TerminalSession.Body>
+    </uit:TerminalSession>
+  </Sequence>
+</Activity>

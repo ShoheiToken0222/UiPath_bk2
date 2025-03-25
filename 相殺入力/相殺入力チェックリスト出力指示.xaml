@@ -1,0 +1,298 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="相殺入力チェックリスト出力指示" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uit="http://schemas.uipath.com/workflow/activities/terminal" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="terminalConnection" Type="InOutArgument(uit:TerminalConnection)" />
+    <x:Property Name="isError" Type="OutArgument(x:Boolean)" />
+    <x:Property Name="message" Type="OutArgument(x:String)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>1608,4892</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>相殺入力チェックリスト出力指示_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="24">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>UiPath.Terminal</x:String>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+      <x:String>UiPath.Terminal.Service</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="23">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Terminal.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Terminal</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>UiPath.CV</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="相殺入力チェックリスト出力指示" sap:VirtualizedContainerService.HintSize="1587,4827" sap2010:WorkflowViewState.IdRef="Sequence_1">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="x:String" Name="getText" />
+      <Variable x:TypeArguments="s:DateTime" Name="dateTime" />
+      <Variable x:TypeArguments="x:String" Name="jobDate" />
+      <Variable x:TypeArguments="x:String" Name="offsetDate" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <uit:TerminalSession ConnectionString="{x:Null}" ContinueOnError="{x:Null}" OutputConnection="{x:Null}" CloseConnection="False" DelayMS="1000" DisplayName="ターミナルセッション" ExistingConnection="[terminalConnection]" sap:VirtualizedContainerService.HintSize="1545,4735" sap2010:WorkflowViewState.IdRef="TerminalSession_1" TimeoutMS="50000">
+      <uit:TerminalSession.Body>
+        <ActivityAction x:TypeArguments="uit:TerminalConnection">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="uit:TerminalConnection" Name="terminalSession" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="実行" sap:VirtualizedContainerService.HintSize="1511,4636" sap2010:WorkflowViewState.IdRef="Sequence_2">
+            <Sequence.Variables>
+              <Variable x:TypeArguments="x:Boolean" Name="checkLoop" />
+            </Sequence.Variables>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <uit:TerminalSetField DelayMS="300" DisplayName="&quot;フィールドを設定 (09)&quot;" FollowedBy="TTTTTTTTTT" sap:VirtualizedContainerService.HintSize="1469,115" sap2010:WorkflowViewState.IdRef="TerminalSetField_19" Index="1" LabeledBy="番号を入力して下さい  " Text="09" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalMoveCursor Column="54" DelayMS="300" DisplayName="カーソルを移動" sap:VirtualizedContainerService.HintSize="1469,59" sap2010:WorkflowViewState.IdRef="TerminalMoveCursor_7" Row="16" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSendControlKey DelayMS="1000" DisplayName="コントロールキーを送信" sap:VirtualizedContainerService.HintSize="1469,61" sap2010:WorkflowViewState.IdRef="TerminalSendControlKey_35" Key="Transmit" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSetField DelayMS="300" DisplayName="&quot;フィールドを設定 (04)&quot;" sap:VirtualizedContainerService.HintSize="1469,115" sap2010:WorkflowViewState.IdRef="TerminalSetField_20" Index="1" LabeledBy="番号を入力して下さい  " Text="04" TimeoutMS="5000" WaitType="READY">
+              <uit:TerminalSetField.FollowedBy>
+                <InArgument x:TypeArguments="x:String">
+                  <Literal x:TypeArguments="x:String" Value="" />
+                </InArgument>
+              </uit:TerminalSetField.FollowedBy>
+            </uit:TerminalSetField>
+            <uit:TerminalMoveCursor Column="50" DelayMS="300" DisplayName="カーソルを移動" sap:VirtualizedContainerService.HintSize="1469,59" sap2010:WorkflowViewState.IdRef="TerminalMoveCursor_8" Row="21" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSendControlKey DelayMS="1000" DisplayName="コントロールキーを送信" sap:VirtualizedContainerService.HintSize="1469,61" sap2010:WorkflowViewState.IdRef="TerminalSendControlKey_36" Key="Transmit" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSetField DelayMS="300" DisplayName="&quot;フィールドを設定 (21)&quot;" sap:VirtualizedContainerService.HintSize="1469,115" sap2010:WorkflowViewState.IdRef="TerminalSetField_21" Index="1" LabeledBy="99 サイン・オフ　　　　　　　　  " Text="21" TimeoutMS="5000" WaitType="READY">
+              <uit:TerminalSetField.FollowedBy>
+                <InArgument x:TypeArguments="x:String">
+                  <Literal x:TypeArguments="x:String" Value="" />
+                </InArgument>
+              </uit:TerminalSetField.FollowedBy>
+            </uit:TerminalSetField>
+            <uit:TerminalMoveCursor Column="53" DelayMS="300" DisplayName="カーソルを移動" sap:VirtualizedContainerService.HintSize="1469,59" sap2010:WorkflowViewState.IdRef="TerminalMoveCursor_9" Row="23" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSendControlKey DelayMS="1000" DisplayName="コントロールキーを送信" sap:VirtualizedContainerService.HintSize="1469,61" sap2010:WorkflowViewState.IdRef="TerminalSendControlKey_37" Key="Transmit" TimeoutMS="5000" WaitType="READY" />
+            <Assign DisplayName="実行年月取得" sap:VirtualizedContainerService.HintSize="1469,60" sap2010:WorkflowViewState.IdRef="Assign_52">
+              <Assign.To>
+                <OutArgument x:TypeArguments="s:DateTime">[dateTime]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="s:DateTime">[Now()]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <If Condition="[dateTime.Day &lt;= 10]" DisplayName="10日までなら当月、以降は翌月とする" sap:VirtualizedContainerService.HintSize="1469,207" sap2010:WorkflowViewState.IdRef="If_21">
+              <If.Then>
+                <Assign DisplayName="当月" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_53">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[offsetDate]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">[Now.ToString("yyMM20")]</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </If.Then>
+              <If.Else>
+                <Assign DisplayName="翌月" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_54">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:String">[offsetDate]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:String">[dateTime.AddMonths(1).ToString("yyMM20")]</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </If.Else>
+            </If>
+            <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="1469,60" sap2010:WorkflowViewState.IdRef="Assign_55">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:String">[jobDate]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:String">[dateTime.ToString("yyMMdd")]</InArgument>
+              </Assign.Value>
+            </Assign>
+            <uit:TerminalSetField DelayMS="300" DisplayName="相殺日 開始 を設定" FollowedBy="～  " sap:VirtualizedContainerService.HintSize="1469,115" sap2010:WorkflowViewState.IdRef="TerminalSetField_22" Index="1" LabeledBy="相殺日 :  " Text="[offsetDate.PadRight(8, &quot; &quot;c)]" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSetField DelayMS="300" DisplayName="相殺日 終了 を設定" FollowedBy="入力日 :  " sap:VirtualizedContainerService.HintSize="1469,115" sap2010:WorkflowViewState.IdRef="TerminalSetField_23" Index="1" LabeledBy="～  " Text="[offsetDate.PadRight(8, &quot; &quot;c)]" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSetField DelayMS="300" DisplayName="入力日 開始 を設定" FollowedBy="～  " sap:VirtualizedContainerService.HintSize="1469,115" sap2010:WorkflowViewState.IdRef="TerminalSetField_24" Index="1" LabeledBy="入力日 :  " Text="[jobDate.PadRight(8, &quot; &quot;c)]" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSetField DelayMS="300" DisplayName="入力日 終了 を設定" FollowedBy="事業所 :  " sap:VirtualizedContainerService.HintSize="1469,115" sap2010:WorkflowViewState.IdRef="TerminalSetField_25" Index="1" LabeledBy="～  " Text="[jobDate.PadRight(8, &quot; &quot;c)]" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSetField DelayMS="300" DisplayName="作成条件 を設定" FollowedBy="施主（代行）  " sap:VirtualizedContainerService.HintSize="1469,115" sap2010:WorkflowViewState.IdRef="TerminalSetField_26" Index="1" LabeledBy="下記から作成条件を選択して下さい。  " Text="1" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalMoveCursor Column="21" DelayMS="300" DisplayName="カーソルを移動" sap:VirtualizedContainerService.HintSize="1469,59" sap2010:WorkflowViewState.IdRef="TerminalMoveCursor_10" Row="10" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSendControlKey DelayMS="1000" DisplayName="コントロールキーを送信" sap:VirtualizedContainerService.HintSize="1469,61" sap2010:WorkflowViewState.IdRef="TerminalSendControlKey_42" Key="Transmit" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalGetTextAtPosition Column="2" DelayMS="300" DisplayName="指定位置でテキストを取得" sap:VirtualizedContainerService.HintSize="1469,87" sap2010:WorkflowViewState.IdRef="TerminalGetTextAtPosition_23" Length="70" Row="23" Text="[getText]" TimeoutMS="5000" WaitType="READY" />
+            <If Condition="[String.IsNullOrWhiteSpace(getText)]" DisplayName="条件分岐" sap:VirtualizedContainerService.HintSize="1469,1728" sap2010:WorkflowViewState.IdRef="If_22">
+              <If.Then>
+                <Sequence DisplayName="シーケンス" sap:VirtualizedContainerService.HintSize="1048,1581" sap2010:WorkflowViewState.IdRef="Sequence_45">
+                  <Sequence.Variables>
+                    <Variable x:TypeArguments="s:DateTime" Name="startTime" />
+                  </Sequence.Variables>
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <uit:TerminalSendControlKey DelayMS="1000" DisplayName="コントロールキーを送信" sap:VirtualizedContainerService.HintSize="1006,61" sap2010:WorkflowViewState.IdRef="TerminalSendControlKey_39" Key="F9" TimeoutMS="5000" WaitType="READY" />
+                  <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="1006,60" sap2010:WorkflowViewState.IdRef="Assign_50">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:Boolean">[checkLoop]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="1006,60" sap2010:WorkflowViewState.IdRef="Assign_58">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="s:DateTime">[startTime]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="s:DateTime">[Now]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <ui:InterruptibleWhile DisplayName="繰り返し (前判定)" sap:VirtualizedContainerService.HintSize="1006,1188" sap2010:WorkflowViewState.IdRef="InterruptibleWhile_1">
+                    <ui:InterruptibleWhile.Body>
+                      <Sequence DisplayName="本体" sap:VirtualizedContainerService.HintSize="970,1023" sap2010:WorkflowViewState.IdRef="Sequence_43">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <uit:TerminalGetTextAtPosition Column="27" DelayMS="300" DisplayName="指定位置でテキストを取得" sap:VirtualizedContainerService.HintSize="928,87" sap2010:WorkflowViewState.IdRef="TerminalGetTextAtPosition_22" Length="20" Row="1" Text="[getText]" TimeoutMS="600000" WaitType="READY" />
+                        <If Condition="[getText.Trim = &quot;月次処理　メニュー&quot;]" DisplayName="条件分岐" sap:VirtualizedContainerService.HintSize="928,804" sap2010:WorkflowViewState.IdRef="If_20">
+                          <If.Then>
+                            <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_51">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:Boolean">[checkLoop]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                          </If.Then>
+                          <If.Else>
+                            <If sap2010:Annotation.AnnotationText="テキスト取得で10分タイムアウトしている想定なのでここで待機処理には流れないと思うが&#xD;&#xA;保険で10分チェックを入れている&#xD;&#xA;ただし、おそらく、エラー処理内のコントロールキー処理はできないと思われる（画面が止まると予想）" Condition="[DateDiff(DateInterval.Minute, Now, startTime) &gt; -10]" DisplayName="条件分岐" sap:VirtualizedContainerService.HintSize="621,657" sap2010:WorkflowViewState.IdRef="If_23">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsAnnotationDocked">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <If.Then>
+                                <Delay DisplayName="待機" Duration="00:00:10" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Delay_2" />
+                              </If.Then>
+                              <If.Else>
+                                <Sequence DisplayName="エラー" sap:VirtualizedContainerService.HintSize="376,453" sap2010:WorkflowViewState.IdRef="Sequence_47">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                  <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_59">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:Boolean">[isError]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                  <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_60">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:String">[message]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:String">NG: チェックリスト出力タイムアウト</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                  <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_61">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:Boolean">[checkLoop]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                  <uit:TerminalSendControlKey DelayMS="1000" DisplayName="コントロールキーを送信" sap:VirtualizedContainerService.HintSize="334,61" sap2010:WorkflowViewState.IdRef="TerminalSendControlKey_41" Key="F3" TimeoutMS="5000" WaitType="READY" />
+                                </Sequence>
+                              </If.Else>
+                            </If>
+                          </If.Else>
+                        </If>
+                      </Sequence>
+                    </ui:InterruptibleWhile.Body>
+                    <ui:InterruptibleWhile.Condition>
+                      <mva:VisualBasicValue x:TypeArguments="x:Boolean" ExpressionText="checkLoop" sap2010:WorkflowViewState.IdRef="VisualBasicValue`1_1" />
+                    </ui:InterruptibleWhile.Condition>
+                  </ui:InterruptibleWhile>
+                </Sequence>
+              </If.Then>
+              <If.Else>
+                <Sequence DisplayName="エラー" sap:VirtualizedContainerService.HintSize="376,353" sap2010:WorkflowViewState.IdRef="Sequence_46">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_56">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:Boolean">[isError]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="334,60" sap2010:WorkflowViewState.IdRef="Assign_57">
+                    <Assign.To>
+                      <OutArgument x:TypeArguments="x:String">[message]</OutArgument>
+                    </Assign.To>
+                    <Assign.Value>
+                      <InArgument x:TypeArguments="x:String">["NG: " + getText]</InArgument>
+                    </Assign.Value>
+                  </Assign>
+                  <uit:TerminalSendControlKey DelayMS="1000" DisplayName="コントロールキーを送信" sap:VirtualizedContainerService.HintSize="334,61" sap2010:WorkflowViewState.IdRef="TerminalSendControlKey_40" Key="F3" TimeoutMS="5000" WaitType="READY" />
+                </Sequence>
+              </If.Else>
+            </If>
+            <uit:TerminalSendControlKey DelayMS="1000" DisplayName="コントロールキーを送信" sap:VirtualizedContainerService.HintSize="1469,61" sap2010:WorkflowViewState.IdRef="TerminalSendControlKey_11" Key="F3" TimeoutMS="5000" WaitType="READY" />
+            <uit:TerminalSendControlKey DelayMS="1000" DisplayName="コントロールキーを送信" sap:VirtualizedContainerService.HintSize="1469,61" sap2010:WorkflowViewState.IdRef="TerminalSendControlKey_12" Key="F3" TimeoutMS="5000" WaitType="READY" />
+          </Sequence>
+        </ActivityAction>
+      </uit:TerminalSession.Body>
+    </uit:TerminalSession>
+  </Sequence>
+</Activity>

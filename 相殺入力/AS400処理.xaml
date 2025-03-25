@@ -1,0 +1,1336 @@
+<Activity mc:Ignorable="sap sap2010" x:Class="AS400処理" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:mva="clr-namespace:Microsoft.VisualBasic.Activities;assembly=System.Activities" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uit="http://schemas.uipath.com/workflow/activities/terminal" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="inputDataList" Type="InArgument(sd:DataTable)" />
+    <x:Property Name="tempDir" Type="InArgument(x:String)" />
+  </x:Members>
+  <mva:VisualBasic.Settings>
+    <x:Null />
+  </mva:VisualBasic.Settings>
+  <sap:VirtualizedContainerService.HintSize>2562,11196</sap:VirtualizedContainerService.HintSize>
+  <sap2010:WorkflowViewState.IdRef>terminal_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <scg:List x:TypeArguments="x:String" Capacity="54">
+      <x:String>System.Activities</x:String>
+      <x:String>System.Activities.Statements</x:String>
+      <x:String>System.Activities.Expressions</x:String>
+      <x:String>System.Activities.Validation</x:String>
+      <x:String>System.Activities.XamlIntegration</x:String>
+      <x:String>Microsoft.VisualBasic</x:String>
+      <x:String>Microsoft.VisualBasic.Activities</x:String>
+      <x:String>System</x:String>
+      <x:String>System.Collections</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Diagnostics</x:String>
+      <x:String>System.Drawing</x:String>
+      <x:String>System.IO</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Net.Mail</x:String>
+      <x:String>System.Xml</x:String>
+      <x:String>System.Xml.Linq</x:String>
+      <x:String>UiPath.Core</x:String>
+      <x:String>UiPath.Core.Activities</x:String>
+      <x:String>System.Windows.Markup</x:String>
+      <x:String>UiPath.Terminal</x:String>
+      <x:String>System.Globalization</x:String>
+      <x:String>System.Xml.Serialization</x:String>
+      <x:String>Microsoft.VisualBasic.CompilerServices</x:String>
+      <x:String>UiPath.Terminal.Service</x:String>
+      <x:String>UiPath.Excel</x:String>
+      <x:String>System.Activities.DynamicUpdate</x:String>
+      <x:String>System.Collections.ObjectModel</x:String>
+    </scg:List>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <scg:List x:TypeArguments="AssemblyReference" Capacity="26">
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualBasic</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Terminal.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.Terminal</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities.Design</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>UiPath.Mail</AssemblyReference>
+      <AssemblyReference>UiPath.CV</AssemblyReference>
+      <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.Excel.Activities</AssemblyReference>
+      <AssemblyReference>System.Memory</AssemblyReference>
+    </scg:List>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence DisplayName="AS400処理" sap:VirtualizedContainerService.HintSize="2572,11131" sap2010:WorkflowViewState.IdRef="Sequence_4">
+    <Sequence.Variables>
+      <Variable x:TypeArguments="scg:List(x:String)" Name="columnList" />
+      <Variable x:TypeArguments="scg:List(x:String)" Default="[new List(of string) From  {&quot;判定&quot;, &quot;相殺後の退去補修費残&quot;, &quot;相殺後のリフォーム残&quot;, &quot;仮受№&quot;}]" Name="addColumnList" />
+      <Variable x:TypeArguments="x:String" Name="offsetListFile" />
+      <Variable x:TypeArguments="x:String" Name="outputfilename" />
+      <Variable x:TypeArguments="x:Boolean" Name="isAppeared" />
+      <Variable x:TypeArguments="x:Boolean" Name="isExist" />
+      <Variable x:TypeArguments="sd:DataTable" Name="offsetList" />
+      <Variable x:TypeArguments="sd:DataTable" Name="titleData" />
+      <Variable x:TypeArguments="x:String" Default="C:\AS400\相殺関連" Name="path" />
+    </Sequence.Variables>
+    <sap:WorkflowViewStateService.ViewState>
+      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+      </scg:Dictionary>
+    </sap:WorkflowViewStateService.ViewState>
+    <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="2530,60" sap2010:WorkflowViewState.IdRef="Assign_31">
+      <Assign.To>
+        <OutArgument x:TypeArguments="scg:List(x:String)">[columnList]</OutArgument>
+      </Assign.To>
+      <Assign.Value>
+        <InArgument x:TypeArguments="scg:List(x:String)">[new List(of string)]</InArgument>
+      </Assign.Value>
+    </Assign>
+    <ui:ForEach x:TypeArguments="sd:DataColumn" CurrentIndex="{x:Null}" DisplayName="入力データの項目名を取得" sap:VirtualizedContainerService.HintSize="2530,51" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[inputDataList.Columns]">
+      <ui:ForEach.Body>
+        <ActivityAction x:TypeArguments="sd:DataColumn">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="sd:DataColumn" Name="col" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="本体" sap:VirtualizedContainerService.HintSize="242,114" sap2010:WorkflowViewState.IdRef="Sequence_96">
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <AddToCollection x:TypeArguments="x:String" Collection="[columnList]" DisplayName="コレクションに追加" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="AddToCollection`1_1" Item="[col.ColumnName]" />
+          </Sequence>
+        </ActivityAction>
+      </ui:ForEach.Body>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:ForEach>
+    <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="項目追加" sap:VirtualizedContainerService.HintSize="2530,51" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[addColumnList]">
+      <ui:ForEach.Body>
+        <ActivityAction x:TypeArguments="x:String">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="x:String" Name="item" />
+          </ActivityAction.Argument>
+          <If Condition="[columnList.Contains(item)]" DisplayName="条件分岐" sap:VirtualizedContainerService.HintSize="484,208" sap2010:WorkflowViewState.IdRef="If_42">
+            <If.Else>
+              <ui:AddDataColumn x:TypeArguments="x:Object" AllowDBNull="{x:Null}" AutoIncrement="{x:Null}" Column="{x:Null}" DefaultValue="{x:Null}" MaxLength="{x:Null}" Unique="{x:Null}" ColumnName="[item]" DataTable="[inputDataList]" DisplayName="列を追加" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="AddDataColumn`1_1" />
+            </If.Else>
+          </If>
+        </ActivityAction>
+      </ui:ForEach.Body>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:ForEach>
+    <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" ClickType="CLICK_DOUBLE" DisplayName="AS400ターミナル起動" sap:VirtualizedContainerService.HintSize="2530,51" sap2010:WorkflowViewState.IdRef="Click_1" KeyModifiers="None" MouseButton="BTN_LEFT" SimulateClick="False">
+      <ui:Click.CursorPosition>
+        <ui:CursorPosition Position="Center">
+          <ui:CursorPosition.OffsetX>
+            <InArgument x:TypeArguments="x:Int32" />
+          </ui:CursorPosition.OffsetX>
+          <ui:CursorPosition.OffsetY>
+            <InArgument x:TypeArguments="x:Int32" />
+          </ui:CursorPosition.OffsetY>
+        </ui:CursorPosition>
+      </ui:Click.CursorPosition>
+      <ui:Click.Target>
+        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="c6ed10c4-f113-4225-bb40-4f0f75ad0346" InformativeScreenshot="663f1f05bcbe30f8153fc6a4236d1d37" Selector="&lt;wnd app='explorer.exe' idx='*' /&gt;&lt;wnd cls='SysListView32' title='FolderView' /&gt;&lt;ctrl role='list' idx='*' /&gt;&lt;ctrl name='AS400本番環境.hod *' role='list item' /&gt;">
+          <ui:Target.TimeoutMS>
+            <InArgument x:TypeArguments="x:Int32" />
+          </ui:Target.TimeoutMS>
+          <ui:Target.WaitForReady>
+            <InArgument x:TypeArguments="ui:WaitForReady" />
+          </ui:Target.WaitForReady>
+        </ui:Target>
+      </ui:Click.Target>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:Click>
+    <ui:CommentOut DisplayName="コメント アウト" sap:VirtualizedContainerService.HintSize="2530,51" sap2010:WorkflowViewState.IdRef="CommentOut_1">
+      <ui:CommentOut.Body>
+        <Sequence DisplayName="無視されたアクティビティ" sap:VirtualizedContainerService.HintSize="476,143" sap2010:WorkflowViewState.IdRef="Sequence_162">
+          <sap:WorkflowViewStateService.ViewState>
+            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+            </scg:Dictionary>
+          </sap:WorkflowViewStateService.ViewState>
+          <ui:WindowScope ApplicationWindow="{x:Null}" SearchScope="{x:Null}" Window="{x:Null}" DisplayName="IBM i ウィンドウにアタッチ（開始）" sap:VirtualizedContainerService.HintSize="200,51" sap2010:WorkflowViewState.IdRef="WindowScope_1" InformativeScreenshot="e88158fbece3883ba5c5f620d4b45315" Selector="&lt;wnd app='acslaunch_win-64.exe' cls='SunAwtDialog' title='IBM i へのサインオン' /&gt;" TimeoutMS="180000">
+            <ui:WindowScope.Body>
+              <ActivityAction x:TypeArguments="x:Object">
+                <ActivityAction.Argument>
+                  <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+                </ActivityAction.Argument>
+                <Sequence DisplayName="ログイン実施" sap:VirtualizedContainerService.HintSize="376,546" sap2010:WorkflowViewState.IdRef="Sequence_6">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:TypeInto AlterIfDisabled="{x:Null}" ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" DisplayName="ユーザー入力" sap:VirtualizedContainerService.HintSize="334,134" sap2010:WorkflowViewState.IdRef="TypeInto_1" Text="tyukai">
+                    <ui:TypeInto.Target>
+                      <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="613c011c-84e8-4628-8837-9cc487b397ce" InformativeScreenshot="07236efce6a7b3c210f32de4ed02a0cc" Selector="&lt;java name='サインオン情報' role='panel' /&gt;&lt;java name='ユーザー:' role='text' /&gt;">
+                        <ui:Target.TimeoutMS>
+                          <InArgument x:TypeArguments="x:Int32" />
+                        </ui:Target.TimeoutMS>
+                        <ui:Target.WaitForReady>
+                          <InArgument x:TypeArguments="ui:WaitForReady" />
+                        </ui:Target.WaitForReady>
+                      </ui:Target>
+                    </ui:TypeInto.Target>
+                  </ui:TypeInto>
+                  <ui:TypeInto AlterIfDisabled="{x:Null}" ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" DisplayName="パスワード入力" sap:VirtualizedContainerService.HintSize="334,134" sap2010:WorkflowViewState.IdRef="TypeInto_2" Text="tyukai">
+                    <ui:TypeInto.Target>
+                      <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="613c011c-84e8-4628-8837-9cc487b397ce" InformativeScreenshot="201beb32a122effbc298bdf7d4a30a69" Selector="&lt;java name='サインオン情報' role='panel' /&gt;&lt;java name='パスワード:' role='password text' /&gt;">
+                        <ui:Target.TimeoutMS>
+                          <InArgument x:TypeArguments="x:Int32" />
+                        </ui:Target.TimeoutMS>
+                        <ui:Target.WaitForReady>
+                          <InArgument x:TypeArguments="ui:WaitForReady" />
+                        </ui:Target.WaitForReady>
+                      </ui:Target>
+                    </ui:TypeInto.Target>
+                  </ui:TypeInto>
+                  <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateClick="{x:Null}" ClickType="CLICK_SINGLE" DisplayName="OKをクリック" sap:VirtualizedContainerService.HintSize="334,106" sap2010:WorkflowViewState.IdRef="Click_2" KeyModifiers="None" MouseButton="BTN_LEFT">
+                    <ui:Click.CursorPosition>
+                      <ui:CursorPosition Position="Center">
+                        <ui:CursorPosition.OffsetX>
+                          <InArgument x:TypeArguments="x:Int32" />
+                        </ui:CursorPosition.OffsetX>
+                        <ui:CursorPosition.OffsetY>
+                          <InArgument x:TypeArguments="x:Int32" />
+                        </ui:CursorPosition.OffsetY>
+                      </ui:CursorPosition>
+                    </ui:Click.CursorPosition>
+                    <ui:Click.Target>
+                      <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="f3b2bb97-f149-4549-a293-a84e5d731099" InformativeScreenshot="68bfb71d11a1acfed7e693d70bfb6040" Selector="&lt;java name='OK(O)' role='push button' /&gt;">
+                        <ui:Target.TimeoutMS>
+                          <InArgument x:TypeArguments="x:Int32" />
+                        </ui:Target.TimeoutMS>
+                        <ui:Target.WaitForReady>
+                          <InArgument x:TypeArguments="ui:WaitForReady" />
+                        </ui:Target.WaitForReady>
+                      </ui:Target>
+                    </ui:Click.Target>
+                  </ui:Click>
+                </Sequence>
+              </ActivityAction>
+            </ui:WindowScope.Body>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+          </ui:WindowScope>
+        </Sequence>
+      </ui:CommentOut.Body>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:CommentOut>
+    <Delay DisplayName="待機" Duration="00:00:10" sap:VirtualizedContainerService.HintSize="2530,22" sap2010:WorkflowViewState.IdRef="Delay_1" />
+    <uit:TerminalSession ContinueOnError="{x:Null}" ExistingConnection="{x:Null}" OutputConnection="{x:Null}" CloseConnection="True" ConnectionString="{}{'AttachExisting':false,'ConnectionType':2,'EhllBasicMode':false,'EhllDll':'C:\\Program Files (x86)\\IBM\\EHLLAPI\\EHLAPI32.dll','EhllEnhanced':false,'EhllFunction':'hllapi','EhllSession':'A','Host':null,'Mode':1,'Port':23,'Profile':null,'ProviderType':4,'ShowTerminal':true,'TerminalType':0}" DelayMS="2000" DisplayName="AS400ターミナルセッション作成" sap:VirtualizedContainerService.HintSize="2530,10422" sap2010:WorkflowViewState.IdRef="TerminalSession_2" TimeoutMS="50000">
+      <uit:TerminalSession.Body>
+        <ActivityAction x:TypeArguments="uit:TerminalConnection">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="uit:TerminalConnection" Name="terminalSession" />
+          </ActivityAction.Argument>
+          <Sequence DisplayName="実行" sap:VirtualizedContainerService.HintSize="2496,10323" sap2010:WorkflowViewState.IdRef="Sequence_3">
+            <Sequence.Variables>
+              <Variable x:TypeArguments="x:String" Name="message" />
+              <Variable x:TypeArguments="x:Boolean" Name="hasError" />
+              <Variable x:TypeArguments="x:Int32" Name="cntLookupData" />
+              <Variable x:TypeArguments="x:Boolean" Name="isNext" />
+            </Sequence.Variables>
+            <sap:WorkflowViewStateService.ViewState>
+              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+              </scg:Dictionary>
+            </sap:WorkflowViewStateService.ViewState>
+            <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="Invoke AS400ログイン workflow" sap:VirtualizedContainerService.HintSize="2454,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_15" UnSafe="False" WorkflowFileName="AS400ログイン.xaml">
+              <ui:InvokeWorkflowFile.Arguments>
+                <InArgument x:TypeArguments="x:String" x:Key="signOnUser">tyukai</InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="signOnPass">tyukai</InArgument>
+                <InOutArgument x:TypeArguments="uit:TerminalConnection" x:Key="terminalConnection">[terminalSession]</InOutArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="logInPass">rk-maruo</InArgument>
+                <InArgument x:TypeArguments="x:String" x:Key="logInUser">05080</InArgument>
+              </ui:InvokeWorkflowFile.Arguments>
+            </ui:InvokeWorkflowFile>
+            <ui:ForEachRow CurrentIndex="{x:Null}" DataTable="[inputDataList]" DisplayName="処理対象ファイルのレコード数分処理" sap:VirtualizedContainerService.HintSize="2454,3104" sap2010:WorkflowViewState.IdRef="ForEachRow_1">
+              <ui:ForEachRow.Body>
+                <ActivityAction x:TypeArguments="sd:DataRow">
+                  <ActivityAction.Argument>
+                    <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
+                  </ActivityAction.Argument>
+                  <TryCatch DisplayName="トライ キャッチ" sap:VirtualizedContainerService.HintSize="1211,2957" sap2010:WorkflowViewState.IdRef="TryCatch_2">
+                    <TryCatch.Try>
+                      <Sequence DisplayName="本体" sap:VirtualizedContainerService.HintSize="1173,2730" sap2010:WorkflowViewState.IdRef="Sequence_28">
+                        <Sequence.Variables>
+                          <Variable x:TypeArguments="x:String" Name="kbn" />
+                          <Variable x:TypeArguments="x:String" Name="constNo" />
+                        </Sequence.Variables>
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="1131,60" sap2010:WorkflowViewState.IdRef="Assign_151">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:String">[kbn]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:String">[StrConv(row("相殺区分").ToString, VbStrConv.Narrow, 1041).ToUpper.Trim]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="1131,60" sap2010:WorkflowViewState.IdRef="Assign_164">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:String">[constNo]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:String">[StrConv(row("工事№").ToString, VbStrConv.Narrow, 1041).ToUpper.Trim]</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <If Condition="[kbn = &quot;K&quot;]" DisplayName="条件分岐" sap:VirtualizedContainerService.HintSize="1131,234" sap2010:WorkflowViewState.IdRef="If_86">
+                          <If.Then>
+                            <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="相殺入力処理（リフォーム） 実施" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_8" UnSafe="False" WorkflowFileName="相殺入力処理K.xaml">
+                              <ui:InvokeWorkflowFile.Arguments>
+                                <InOutArgument x:TypeArguments="uit:TerminalConnection" x:Key="terminalConnection">[terminalSession]</InOutArgument>
+                                <OutArgument x:TypeArguments="x:String" x:Key="message">[message]</OutArgument>
+                                <InArgument x:TypeArguments="sd:DataRow" x:Key="row">[row]</InArgument>
+                                <OutArgument x:TypeArguments="x:Boolean" x:Key="isError">[hasError]</OutArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="kbn">[kbn]</InArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="constNo">[constNo]</InArgument>
+                              </ui:InvokeWorkflowFile.Arguments>
+                            </ui:InvokeWorkflowFile>
+                          </If.Then>
+                          <If.Else>
+                            <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="相殺入力処理（リフォーム以外） 実施" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_17" UnSafe="False" WorkflowFileName="相殺入力処理.xaml">
+                              <ui:InvokeWorkflowFile.Arguments>
+                                <InOutArgument x:TypeArguments="uit:TerminalConnection" x:Key="terminalConnection">[terminalSession]</InOutArgument>
+                                <OutArgument x:TypeArguments="x:String" x:Key="message">[message]</OutArgument>
+                                <InArgument x:TypeArguments="sd:DataRow" x:Key="row">[row]</InArgument>
+                                <OutArgument x:TypeArguments="x:Boolean" x:Key="isError">[hasError]</OutArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="kbn">[kbn]</InArgument>
+                                <InArgument x:TypeArguments="x:String" x:Key="constNo">[constNo]</InArgument>
+                              </ui:InvokeWorkflowFile.Arguments>
+                            </ui:InvokeWorkflowFile>
+                          </If.Else>
+                        </If>
+                        <If Condition="[hasError]" DisplayName="条件分岐" sap:VirtualizedContainerService.HintSize="1131,599" sap2010:WorkflowViewState.IdRef="If_85">
+                          <If.Then>
+                            <Sequence DisplayName="NG" sap:VirtualizedContainerService.HintSize="304,452" sap2010:WorkflowViewState.IdRef="Sequence_169">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <Assign DisplayName="エラーあり" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_150">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Object">[row("判定")]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Object">[message]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_162">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Object">[row("相殺後の退去補修費残")]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Object">["-"]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_163">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Object">[row("相殺後のリフォーム残")]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Object">["-"]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_152">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Boolean">[isNext]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                            </Sequence>
+                          </If.Then>
+                          <If.Else>
+                            <Sequence DisplayName="OK" sap:VirtualizedContainerService.HintSize="304,352" sap2010:WorkflowViewState.IdRef="Sequence_163">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <Assign DisplayName="エラーなし" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_148">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Object">[row("判定")]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Object">["OK"]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_153">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Boolean">[isNext]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_154">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Boolean">[hasError]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                            </Sequence>
+                          </If.Else>
+                        </If>
+                        <If Condition="[isNext]" DisplayName="条件分岐" sap:VirtualizedContainerService.HintSize="1131,1525" sap2010:WorkflowViewState.IdRef="If_91">
+                          <If.Then>
+                            <Sequence DisplayName="残金算出処理" sap:VirtualizedContainerService.HintSize="960,1378" sap2010:WorkflowViewState.IdRef="Sequence_168">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <If Condition="[kbn = &quot;1&quot;]" DisplayName="条件分岐" sap:VirtualizedContainerService.HintSize="918,573" sap2010:WorkflowViewState.IdRef="If_88">
+                                <If.Then>
+                                  <Sequence DisplayName="相殺区分 1" sap:VirtualizedContainerService.HintSize="611,426" sap2010:WorkflowViewState.IdRef="Sequence_165">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="ワークフロー ファイルを呼び出し" sap:VirtualizedContainerService.HintSize="569,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_18" UnSafe="False" WorkflowFileName="退去補修費残算出.xaml">
+                                      <ui:InvokeWorkflowFile.Arguments>
+                                        <InOutArgument x:TypeArguments="uit:TerminalConnection" x:Key="terminalConnection">[terminalSession]</InOutArgument>
+                                        <OutArgument x:TypeArguments="x:String" x:Key="message">[message]</OutArgument>
+                                        <InArgument x:TypeArguments="sd:DataRow" x:Key="row">[row]</InArgument>
+                                        <OutArgument x:TypeArguments="x:Boolean" x:Key="isError">[hasError]</OutArgument>
+                                      </ui:InvokeWorkflowFile.Arguments>
+                                    </ui:InvokeWorkflowFile>
+                                    <If Condition="[hasError]" DisplayName="条件分岐" sap:VirtualizedContainerService.HintSize="569,207" sap2010:WorkflowViewState.IdRef="If_87">
+                                      <If.Then>
+                                        <Assign DisplayName="エラーあり" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_155">
+                                          <Assign.To>
+                                            <OutArgument x:TypeArguments="x:Object">[row("相殺後の退去補修費残")]</OutArgument>
+                                          </Assign.To>
+                                          <Assign.Value>
+                                            <InArgument x:TypeArguments="x:Object">[message]</InArgument>
+                                          </Assign.Value>
+                                        </Assign>
+                                      </If.Then>
+                                      <If.Else>
+                                        <Assign DisplayName="エラーなし" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_156">
+                                          <Assign.To>
+                                            <OutArgument x:TypeArguments="x:Object">[row("相殺後の退去補修費残")]</OutArgument>
+                                          </Assign.To>
+                                          <Assign.Value>
+                                            <InArgument x:TypeArguments="x:Object">[String.Format("{0:#,0}", Cint(message))]</InArgument>
+                                          </Assign.Value>
+                                        </Assign>
+                                      </If.Else>
+                                    </If>
+                                  </Sequence>
+                                </If.Then>
+                                <If.Else>
+                                  <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_157">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:Object">[row("相殺後の退去補修費残")]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:Object">["-"]</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                </If.Else>
+                              </If>
+                              <If Condition="[kbn = &quot;K&quot;]" DisplayName="条件分岐" sap:VirtualizedContainerService.HintSize="918,673" sap2010:WorkflowViewState.IdRef="If_90">
+                                <If.Then>
+                                  <Sequence DisplayName="相殺区分 K" sap:VirtualizedContainerService.HintSize="611,526" sap2010:WorkflowViewState.IdRef="Sequence_167">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="569,60" sap2010:WorkflowViewState.IdRef="Assign_158">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[hasError]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="ワークフロー ファイルを呼び出し" sap:VirtualizedContainerService.HintSize="569,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_19" UnSafe="False" WorkflowFileName="リフォーム残算出.xaml">
+                                      <ui:InvokeWorkflowFile.Arguments>
+                                        <InOutArgument x:TypeArguments="uit:TerminalConnection" x:Key="terminalConnection">[terminalSession]</InOutArgument>
+                                        <OutArgument x:TypeArguments="x:String" x:Key="message">[message]</OutArgument>
+                                        <InArgument x:TypeArguments="sd:DataRow" x:Key="row">[row]</InArgument>
+                                        <OutArgument x:TypeArguments="x:Boolean" x:Key="isError">[hasError]</OutArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="constNo">[constNo]</InArgument>
+                                      </ui:InvokeWorkflowFile.Arguments>
+                                    </ui:InvokeWorkflowFile>
+                                    <If Condition="[hasError]" DisplayName="条件分岐" sap:VirtualizedContainerService.HintSize="569,207" sap2010:WorkflowViewState.IdRef="If_89">
+                                      <If.Then>
+                                        <Assign DisplayName="エラーあり" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_159">
+                                          <Assign.To>
+                                            <OutArgument x:TypeArguments="x:Object">[row("相殺後のリフォーム残")]</OutArgument>
+                                          </Assign.To>
+                                          <Assign.Value>
+                                            <InArgument x:TypeArguments="x:Object">[message]</InArgument>
+                                          </Assign.Value>
+                                        </Assign>
+                                      </If.Then>
+                                      <If.Else>
+                                        <Assign DisplayName="エラーなし" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_160">
+                                          <Assign.To>
+                                            <OutArgument x:TypeArguments="x:Object">[row("相殺後のリフォーム残")]</OutArgument>
+                                          </Assign.To>
+                                          <Assign.Value>
+                                            <InArgument x:TypeArguments="x:Object">[String.Format("{0:#,0}", Cint(message))]</InArgument>
+                                          </Assign.Value>
+                                        </Assign>
+                                      </If.Else>
+                                    </If>
+                                  </Sequence>
+                                </If.Then>
+                                <If.Else>
+                                  <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_161">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:Object">[row("相殺後のリフォーム残")]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:Object">["-"]</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                </If.Else>
+                              </If>
+                            </Sequence>
+                          </If.Then>
+                        </If>
+                      </Sequence>
+                    </TryCatch.Try>
+                    <TryCatch.Catches>
+                      <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="1177,21" sap2010:WorkflowViewState.IdRef="Catch`1_2">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ActivityAction x:TypeArguments="s:Exception">
+                          <ActivityAction.Argument>
+                            <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                          </ActivityAction.Argument>
+                          <ui:WindowScope ApplicationWindow="{x:Null}" SearchScope="{x:Null}" TimeoutMS="{x:Null}" Window="{x:Null}" DisplayName="ターミナルウィンドウにアタッチする" sap:VirtualizedContainerService.HintSize="936,1777" sap2010:WorkflowViewState.IdRef="WindowScope_3" InformativeScreenshot="a893314d736af572051967c54ed91457" Selector="&lt;wnd app='acslaunch_win-64.exe' cls='SunAwtFrame' title='* - 5250 ディスプレイ' /&gt;">
+                            <ui:WindowScope.Body>
+                              <ActivityAction x:TypeArguments="x:Object">
+                                <ActivityAction.Argument>
+                                  <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+                                </ActivityAction.Argument>
+                                <Sequence DisplayName="エラー発生時、復旧処理" sap:VirtualizedContainerService.HintSize="902,1631" sap2010:WorkflowViewState.IdRef="Sequence_141">
+                                  <sap:WorkflowViewStateService.ViewState>
+                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    </scg:Dictionary>
+                                  </sap:WorkflowViewStateService.ViewState>
+                                  <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="860,60" sap2010:WorkflowViewState.IdRef="Assign_113">
+                                    <Assign.To>
+                                      <OutArgument x:TypeArguments="x:Object">[row("判定")]</OutArgument>
+                                    </Assign.To>
+                                    <Assign.Value>
+                                      <InArgument x:TypeArguments="x:Object">["想定外のエラー発生。詳細=[" + exception.Message + "]"]</InArgument>
+                                    </Assign.Value>
+                                  </Assign>
+                                  <ui:SendHotkey ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" Activate="True" DisplayName="ホットキーで画面エラー状態解除" sap:VirtualizedContainerService.HintSize="860,154" sap2010:WorkflowViewState.IdRef="SendHotkey_1" Key="f3" KeyModifiers="None" SpecialKey="True">
+                                    <ui:SendHotkey.Target>
+                                      <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="c1944cbf-e7ab-4a31-bd57-afd46d31bd5e" InformativeScreenshot="1d563847bb5b582df75af34091c2c344" Selector="&lt;java idx='6' role='panel' /&gt;">
+                                        <ui:Target.TimeoutMS>
+                                          <InArgument x:TypeArguments="x:Int32" />
+                                        </ui:Target.TimeoutMS>
+                                        <ui:Target.WaitForReady>
+                                          <InArgument x:TypeArguments="ui:WaitForReady" />
+                                        </ui:Target.WaitForReady>
+                                      </ui:Target>
+                                    </ui:SendHotkey.Target>
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                  </ui:SendHotkey>
+                                  <Sequence DisplayName="サイン・オン画面まで戻る" sap:VirtualizedContainerService.HintSize="860,1285" sap2010:WorkflowViewState.IdRef="Sequence_142">
+                                    <Sequence.Variables>
+                                      <Variable x:TypeArguments="x:String" Name="tempText" />
+                                      <Variable x:TypeArguments="x:Boolean" Name="doF3" />
+                                    </Sequence.Variables>
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <uit:TerminalGetTextAtPosition Column="33" DelayMS="300" DisplayName="現在表示画面を取得" sap:VirtualizedContainerService.HintSize="818,87" sap2010:WorkflowViewState.IdRef="TerminalGetTextAtPosition_1" Length="6" Row="1" Text="[tempText]" TimeoutMS="5000" WaitType="READY" />
+                                    <Assign DisplayName="F3押下フラグをOn" sap:VirtualizedContainerService.HintSize="818,60" sap2010:WorkflowViewState.IdRef="Assign_109">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Boolean">[doF3]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <If Condition="[tempText.Trim = &quot;サイン・オン&quot;]" DisplayName="現在、「サイン・オン」画面か？" sap:VirtualizedContainerService.HintSize="818,839" sap2010:WorkflowViewState.IdRef="If_76">
+                                      <If.Else>
+                                        <ui:InterruptibleDoWhile Condition="[doF3]" DisplayName="「サイン・オン」画面までF3を押す" sap:VirtualizedContainerService.HintSize="647,692" sap2010:WorkflowViewState.IdRef="InterruptibleDoWhile_1">
+                                          <ui:InterruptibleDoWhile.Body>
+                                            <Sequence DisplayName="本体" sap:VirtualizedContainerService.HintSize="611,527" sap2010:WorkflowViewState.IdRef="Sequence_143">
+                                              <sap:WorkflowViewStateService.ViewState>
+                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                </scg:Dictionary>
+                                              </sap:WorkflowViewStateService.ViewState>
+                                              <uit:TerminalSendControlKey DelayMS="1000" DisplayName="F3を送信" sap:VirtualizedContainerService.HintSize="569,61" sap2010:WorkflowViewState.IdRef="TerminalSendControlKey_12" Key="F3" TimeoutMS="5000" WaitType="READY" />
+                                              <uit:TerminalGetTextAtPosition Column="33" DelayMS="300" DisplayName="現在表示画面を取得" sap:VirtualizedContainerService.HintSize="569,87" sap2010:WorkflowViewState.IdRef="TerminalGetTextAtPosition_2" Length="6" Row="1" Text="[tempText]" TimeoutMS="5000" WaitType="READY" />
+                                              <If Condition="[tempText.Trim = &quot;サイン・オン&quot;]" DisplayName="現在、「サイン・オン」画面か？" sap:VirtualizedContainerService.HintSize="569,207" sap2010:WorkflowViewState.IdRef="If_77">
+                                                <If.Then>
+                                                  <Assign DisplayName="F3終了" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_110">
+                                                    <Assign.To>
+                                                      <OutArgument x:TypeArguments="x:Boolean">[doF3]</OutArgument>
+                                                    </Assign.To>
+                                                    <Assign.Value>
+                                                      <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                                                    </Assign.Value>
+                                                  </Assign>
+                                                </If.Then>
+                                                <If.Else>
+                                                  <Assign DisplayName="F3続行" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_111">
+                                                    <Assign.To>
+                                                      <OutArgument x:TypeArguments="x:Boolean">[doF3]</OutArgument>
+                                                    </Assign.To>
+                                                    <Assign.Value>
+                                                      <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                                    </Assign.Value>
+                                                  </Assign>
+                                                </If.Else>
+                                              </If>
+                                            </Sequence>
+                                          </ui:InterruptibleDoWhile.Body>
+                                        </ui:InterruptibleDoWhile>
+                                      </If.Else>
+                                    </If>
+                                    <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="AS400再度ログイン" sap:VirtualizedContainerService.HintSize="818,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_16" UnSafe="False" WorkflowFileName="AS400ログイン.xaml">
+                                      <ui:InvokeWorkflowFile.Arguments>
+                                        <InArgument x:TypeArguments="x:String" x:Key="signOnUser">tyukai</InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="signOnPass">tyukai</InArgument>
+                                        <InOutArgument x:TypeArguments="uit:TerminalConnection" x:Key="terminalConnection">[terminalSession]</InOutArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="logInPass">rk-maruo</InArgument>
+                                        <InArgument x:TypeArguments="x:String" x:Key="logInUser">05080</InArgument>
+                                      </ui:InvokeWorkflowFile.Arguments>
+                                    </ui:InvokeWorkflowFile>
+                                  </Sequence>
+                                </Sequence>
+                              </ActivityAction>
+                            </ui:WindowScope.Body>
+                            <sap:WorkflowViewStateService.ViewState>
+                              <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                              </scg:Dictionary>
+                            </sap:WorkflowViewStateService.ViewState>
+                          </ui:WindowScope>
+                        </ActivityAction>
+                      </Catch>
+                    </TryCatch.Catches>
+                  </TryCatch>
+                </ActivityAction>
+              </ui:ForEachRow.Body>
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </ui:ForEachRow>
+            <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="2454,60" sap2010:WorkflowViewState.IdRef="Assign_214">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:Boolean">[isAppeared]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+              </Assign.Value>
+            </Assign>
+            <ui:UiElementExists DisplayName="要素の有無を検出 'explorer.exe  相殺関連'" Exists="[isAppeared]" sap:VirtualizedContainerService.HintSize="2454,106" sap2010:WorkflowViewState.IdRef="UiElementExists_3">
+              <ui:UiElementExists.Target>
+                <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="27de860e-a842-41b2-9816-62b511ca8f8f" InformativeScreenshot="737e2f284e5aab1f16389f12fbc362f4" Selector="&lt;wnd app='explorer.exe' cls='CabinetWClass' title='相殺関連' /&gt;" TimeoutMS="5000">
+                  <ui:Target.WaitForReady>
+                    <InArgument x:TypeArguments="ui:WaitForReady" />
+                  </ui:Target.WaitForReady>
+                </ui:Target>
+              </ui:UiElementExists.Target>
+            </ui:UiElementExists>
+            <If Condition="[isAppeared]" DisplayName="条件分岐" sap:VirtualizedContainerService.HintSize="2454,453" sap2010:WorkflowViewState.IdRef="If_111">
+              <If.Then>
+                <ui:WindowScope ApplicationWindow="{x:Null}" SearchScope="{x:Null}" TimeoutMS="{x:Null}" Window="{x:Null}" DisplayName="ウィンドウにアタッチ 'explorer.exe  相殺関連'" sap:VirtualizedContainerService.HintSize="434,306" sap2010:WorkflowViewState.IdRef="WindowScope_8" InformativeScreenshot="e2eef28661ae132aa1dbbf57fe03a99b" Selector="&lt;wnd app='explorer.exe' cls='CabinetWClass' title='相殺関連' /&gt;">
+                  <ui:WindowScope.Body>
+                    <ActivityAction x:TypeArguments="x:Object">
+                      <ActivityAction.Argument>
+                        <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+                      </ActivityAction.Argument>
+                      <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="376,160" sap2010:WorkflowViewState.IdRef="Sequence_211">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <ui:CloseWindow Selector="{x:Null}" TimeoutMS="{x:Null}" UseWindow="{x:Null}" DisplayName="ウィンドウを閉じる" sap:VirtualizedContainerService.HintSize="334,68" sap2010:WorkflowViewState.IdRef="CloseWindow_3" WaitForReady="INTERACTIVE" />
+                      </Sequence>
+                    </ActivityAction>
+                  </ui:WindowScope.Body>
+                </ui:WindowScope>
+              </If.Then>
+            </If>
+            <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="2454,60" sap2010:WorkflowViewState.IdRef="Assign_193">
+              <Assign.To>
+                <OutArgument x:TypeArguments="x:Int32">[cntLookupData]</OutArgument>
+              </Assign.To>
+              <Assign.Value>
+                <InArgument x:TypeArguments="x:Int32">0</InArgument>
+              </Assign.Value>
+            </Assign>
+            <ui:LookupDataTable CellValue="{x:Null}" LookupColumnIndex="{x:Null}" LookupDataColumn="{x:Null}" TargetColumnIndex="{x:Null}" TargetColumnName="{x:Null}" TargetDataColumn="{x:Null}" DataTable="[inputDataList]" DisplayName="データ テーブルを検索" sap:VirtualizedContainerService.HintSize="2454,22" sap2010:WorkflowViewState.IdRef="LookupDataTable_1" LookupColumnName="判定" LookupValue="OK" RowIndex="[cntLookupData]" />
+            <If Condition="[cntLookupData &gt;= 0]" DisplayName="条件分岐" sap:VirtualizedContainerService.HintSize="2454,5090" sap2010:WorkflowViewState.IdRef="If_103">
+              <If.Then>
+                <Sequence DisplayName="相殺更新処理" sap:VirtualizedContainerService.HintSize="2147,4943" sap2010:WorkflowViewState.IdRef="Sequence_192">
+                  <sap:WorkflowViewStateService.ViewState>
+                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                    </scg:Dictionary>
+                  </sap:WorkflowViewStateService.ViewState>
+                  <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="ワークフロー ファイルを呼び出し" sap:VirtualizedContainerService.HintSize="2105,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_26" UnSafe="False" WorkflowFileName="相殺更新処理.xaml">
+                    <ui:InvokeWorkflowFile.Arguments>
+                      <InOutArgument x:TypeArguments="uit:TerminalConnection" x:Key="terminalConnection">[terminalSession]</InOutArgument>
+                      <OutArgument x:TypeArguments="x:Boolean" x:Key="isError" />
+                      <OutArgument x:TypeArguments="x:String" x:Key="message">[message]</OutArgument>
+                    </ui:InvokeWorkflowFile.Arguments>
+                  </ui:InvokeWorkflowFile>
+                  <If Condition="[hasError]" DisplayName="条件分岐" sap:VirtualizedContainerService.HintSize="2105,234" sap2010:WorkflowViewState.IdRef="If_110">
+                    <If.Then>
+                      <Assign DisplayName="仮受No取得エラー" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_212">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:Object">[inputDataList.Rows(0).Item("仮受№")]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:Object">["NG: チェックリスト出力エラー"]</InArgument>
+                        </Assign.Value>
+                      </Assign>
+                    </If.Then>
+                    <If.Else>
+                      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="ワークフロー ファイルを呼び出し" sap:VirtualizedContainerService.HintSize="334,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_20" UnSafe="False" WorkflowFileName="相殺入力チェックリスト出力指示.xaml">
+                        <ui:InvokeWorkflowFile.Arguments>
+                          <InOutArgument x:TypeArguments="uit:TerminalConnection" x:Key="terminalConnection">[terminalSession]</InOutArgument>
+                          <OutArgument x:TypeArguments="x:Boolean" x:Key="isError">[hasError]</OutArgument>
+                          <OutArgument x:TypeArguments="x:String" x:Key="message">[message]</OutArgument>
+                        </ui:InvokeWorkflowFile.Arguments>
+                      </ui:InvokeWorkflowFile>
+                    </If.Else>
+                  </If>
+                  <If Condition="[hasError]" DisplayName="条件分岐" sap:VirtualizedContainerService.HintSize="2105,4450" sap2010:WorkflowViewState.IdRef="If_104">
+                    <If.Then>
+                      <Assign DisplayName="仮受No取得エラー" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_194">
+                        <Assign.To>
+                          <OutArgument x:TypeArguments="x:Object">[inputDataList.Rows(0).Item("仮受№")]</OutArgument>
+                        </Assign.To>
+                        <Assign.Value>
+                          <InArgument x:TypeArguments="x:Object">["NG: チェックリスト出力エラー"]</InArgument>
+                        </Assign.Value>
+                      </Assign>
+                    </If.Then>
+                    <If.Else>
+                      <Sequence DisplayName="ファイル作成検知" sap:VirtualizedContainerService.HintSize="1798,4303" sap2010:WorkflowViewState.IdRef="Sequence_205">
+                        <sap:WorkflowViewStateService.ViewState>
+                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                            <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                          </scg:Dictionary>
+                        </sap:WorkflowViewStateService.ViewState>
+                        <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="1756,60" sap2010:WorkflowViewState.IdRef="Assign_195">
+                          <Assign.To>
+                            <OutArgument x:TypeArguments="x:Boolean">[isAppeared]</OutArgument>
+                          </Assign.To>
+                          <Assign.Value>
+                            <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                          </Assign.Value>
+                        </Assign>
+                        <ui:UiElementExists DisplayName="要素の有無を検出 'explorer.exe  相殺関連'" Exists="[isAppeared]" sap:VirtualizedContainerService.HintSize="1756,106" sap2010:WorkflowViewState.IdRef="UiElementExists_2">
+                          <ui:UiElementExists.Target>
+                            <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="27de860e-a842-41b2-9816-62b511ca8f8f" InformativeScreenshot="737e2f284e5aab1f16389f12fbc362f4" Selector="&lt;wnd app='explorer.exe' cls='CabinetWClass' title='相殺関連' /&gt;" TimeoutMS="600000">
+                              <ui:Target.WaitForReady>
+                                <InArgument x:TypeArguments="ui:WaitForReady" />
+                              </ui:Target.WaitForReady>
+                            </ui:Target>
+                          </ui:UiElementExists.Target>
+                        </ui:UiElementExists>
+                        <If Condition="[isAppeared]" DisplayName="条件分岐" sap:VirtualizedContainerService.HintSize="1756,3965" sap2010:WorkflowViewState.IdRef="If_109">
+                          <If.Then>
+                            <Sequence DisplayName="リストが作成された" sap:VirtualizedContainerService.HintSize="1449,3818" sap2010:WorkflowViewState.IdRef="Sequence_203">
+                              <Sequence.Variables>
+                                <Variable x:TypeArguments="x:String" Name="tempFileName" />
+                                <Variable x:TypeArguments="x:Int32" Name="itemCnt" />
+                              </Sequence.Variables>
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="1407,60" sap2010:WorkflowViewState.IdRef="Assign_196">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:String">[offsetListFile]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:String">[System.IO.Directory.GetFiles(path, outputfilename + "相殺入力チェックリスト*.xlsx").OrderByDescending(Function(x) System.Text.RegularExpressions.Regex.Match(System.IO.Path.GetFileNameWithoutExtension(x), "\d{13}").Value).Last]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel アプリケーション スコープ" sap:VirtualizedContainerService.HintSize="1407,322" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_3" Visible="False" WorkbookPath="[offsetListFile]">
+                                <ui:ExcelApplicationScope.Body>
+                                  <ActivityAction x:TypeArguments="ui:WorkbookApplication">
+                                    <ActivityAction.Argument>
+                                      <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
+                                    </ActivityAction.Argument>
+                                    <Sequence DisplayName="実行" sap:VirtualizedContainerService.HintSize="376,213" sap2010:WorkflowViewState.IdRef="Sequence_194">
+                                      <Sequence.Variables>
+                                        <Variable x:TypeArguments="x:String" Name="sheetName" />
+                                      </Sequence.Variables>
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <ui:ExcelGetWorkbookSheet DisplayName="ブックのシートを取得" sap:VirtualizedContainerService.HintSize="334,22" sap2010:WorkflowViewState.IdRef="ExcelGetWorkbookSheet_2" Index="0" Sheet="[sheetName]" />
+                                      <ui:ExcelReadRange AddHeaders="False" DataTable="[offsetList]" DisplayName="範囲を読み込み" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="ExcelReadRange_3" SheetName="[sheetName]">
+                                        <ui:ExcelReadRange.Range>
+                                          <InArgument x:TypeArguments="x:String">
+                                            <Literal x:TypeArguments="x:String" Value="" />
+                                          </InArgument>
+                                        </ui:ExcelReadRange.Range>
+                                      </ui:ExcelReadRange>
+                                    </Sequence>
+                                  </ActivityAction>
+                                </ui:ExcelApplicationScope.Body>
+                              </ui:ExcelApplicationScope>
+                              <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="1407,60" sap2010:WorkflowViewState.IdRef="Assign_197">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:String">[tempFileName]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:String">[System.IO.Path.Combine(tempDir + "\ひな形", "【ひな形】相殺入力チェックリスト.xlsx")]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <ui:ExcelApplicationScope Password="{x:Null}" DisplayName="Excel アプリケーション スコープ" sap:VirtualizedContainerService.HintSize="1407,260" sap2010:WorkflowViewState.IdRef="ExcelApplicationScope_4" Visible="False" WorkbookPath="[tempFileName]">
+                                <ui:ExcelApplicationScope.Body>
+                                  <ActivityAction x:TypeArguments="ui:WorkbookApplication">
+                                    <ActivityAction.Argument>
+                                      <DelegateInArgument x:TypeArguments="ui:WorkbookApplication" Name="ExcelWorkbookScope" />
+                                    </ActivityAction.Argument>
+                                    <Sequence DisplayName="実行" sap:VirtualizedContainerService.HintSize="376,151" sap2010:WorkflowViewState.IdRef="Sequence_195">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <ui:ExcelReadRange AddHeaders="True" DataTable="[titleData]" DisplayName="範囲を読み込み" sap:VirtualizedContainerService.HintSize="334,59" sap2010:WorkflowViewState.IdRef="ExcelReadRange_4" SheetName="Sheet1">
+                                        <ui:ExcelReadRange.Range>
+                                          <InArgument x:TypeArguments="x:String">
+                                            <Literal x:TypeArguments="x:String" Value="" />
+                                          </InArgument>
+                                        </ui:ExcelReadRange.Range>
+                                      </ui:ExcelReadRange>
+                                    </Sequence>
+                                  </ActivityAction>
+                                </ui:ExcelApplicationScope.Body>
+                              </ui:ExcelApplicationScope>
+                              <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="1407,60" sap2010:WorkflowViewState.IdRef="Assign_198">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:Int32">[itemCnt]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:Int32">0</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <ui:InterruptibleWhile DisplayName="繰り返し (前判定)" sap:VirtualizedContainerService.HintSize="1407,417" sap2010:WorkflowViewState.IdRef="InterruptibleWhile_2">
+                                <ui:InterruptibleWhile.Body>
+                                  <Sequence DisplayName="本体" sap:VirtualizedContainerService.HintSize="304,252" sap2010:WorkflowViewState.IdRef="Sequence_196">
+                                    <sap:WorkflowViewStateService.ViewState>
+                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                      </scg:Dictionary>
+                                    </sap:WorkflowViewStateService.ViewState>
+                                    <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_199">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:String">[offsetList.Columns(itemCnt).ColumnName]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:String">[titleData.Columns(itemCnt).ColumnName]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                    <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_200">
+                                      <Assign.To>
+                                        <OutArgument x:TypeArguments="x:Int32">[itemCnt]</OutArgument>
+                                      </Assign.To>
+                                      <Assign.Value>
+                                        <InArgument x:TypeArguments="x:Int32">[itemCnt + 1]</InArgument>
+                                      </Assign.Value>
+                                    </Assign>
+                                  </Sequence>
+                                </ui:InterruptibleWhile.Body>
+                                <ui:InterruptibleWhile.Condition>
+                                  <mva:VisualBasicValue x:TypeArguments="x:Boolean" ExpressionText="itemCnt &lt; offsetList.Columns.Count" sap2010:WorkflowViewState.IdRef="VisualBasicValue`1_1" />
+                                </ui:InterruptibleWhile.Condition>
+                              </ui:InterruptibleWhile>
+                              <ui:RemoveDataRow Row="{x:Null}" DataTable="[offsetList]" DisplayName="データ行を削除" sap:VirtualizedContainerService.HintSize="1407,22" sap2010:WorkflowViewState.IdRef="RemoveDataRow_2" RowIndex="0" />
+                              <ui:ForEachRow CurrentIndex="{x:Null}" DataTable="[inputDataList]" DisplayName="処理対象ファイルのレコード数分処理" sap:VirtualizedContainerService.HintSize="1407,1899" sap2010:WorkflowViewState.IdRef="ForEachRow_5">
+                                <ui:ForEachRow.Body>
+                                  <ActivityAction x:TypeArguments="sd:DataRow">
+                                    <ActivityAction.Argument>
+                                      <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row" />
+                                    </ActivityAction.Argument>
+                                    <TryCatch DisplayName="トライ キャッチ" sap:VirtualizedContainerService.HintSize="1357,1752" sap2010:WorkflowViewState.IdRef="TryCatch_4">
+                                      <TryCatch.Try>
+                                        <Sequence DisplayName="本体" sap:VirtualizedContainerService.HintSize="1319,1525" sap2010:WorkflowViewState.IdRef="Sequence_199">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="1277,60" sap2010:WorkflowViewState.IdRef="Assign_201">
+                                            <Assign.To>
+                                              <OutArgument x:TypeArguments="x:Boolean">[isExist]</OutArgument>
+                                            </Assign.To>
+                                            <Assign.Value>
+                                              <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                                            </Assign.Value>
+                                          </Assign>
+                                          <ui:ForEachRow CurrentIndex="{x:Null}" DataTable="[offsetList]" DisplayName="繰り返し (各行)" sap:VirtualizedContainerService.HintSize="1277,1086" sap2010:WorkflowViewState.IdRef="ForEachRow_4">
+                                            <ui:ForEachRow.Body>
+                                              <ActivityAction x:TypeArguments="sd:DataRow">
+                                                <ActivityAction.Argument>
+                                                  <DelegateInArgument x:TypeArguments="sd:DataRow" Name="row_offset" />
+                                                </ActivityAction.Argument>
+                                                <Sequence DisplayName="本体" sap:VirtualizedContainerService.HintSize="1227,939" sap2010:WorkflowViewState.IdRef="Sequence_198">
+                                                  <sap:WorkflowViewStateService.ViewState>
+                                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                    </scg:Dictionary>
+                                                  </sap:WorkflowViewStateService.ViewState>
+                                                  <If Condition="[row(&quot;物件№&quot;).ToString = row_offset(&quot;物件№&quot;).ToString AndAlso &#xD;&#xA;row(&quot;号室&quot;).ToString.PadLeft(5, &quot;0&quot;c) = row_offset(&quot;号室&quot;).ToString.PadLeft(5, &quot;0&quot;c) AndAlso &#xD;&#xA;row(&quot;連番（SEQ）&quot;).ToString.PadLeft(3, &quot;0&quot;c) = row_offset(&quot;連番&quot;).ToString.PadLeft(3, &quot;0&quot;c) AndAlso &#xD;&#xA;row(&quot;相殺区分&quot;).ToString = row_offset(&quot;相殺対象区分&quot;).ToString AndAlso &#xD;&#xA;CInt(row(&quot;相殺額&quot;).ToString) = CInt(row_offset(&quot;相殺金額&quot;).ToString)]" DisplayName="条件分岐" sap:VirtualizedContainerService.HintSize="1185,847" sap2010:WorkflowViewState.IdRef="If_105">
+                                                    <If.Then>
+                                                      <Sequence DisplayName="相殺区分が &quot;A&quot; または &quot;B&quot; の場合は対象年月もチェックする" sap:VirtualizedContainerService.HintSize="940,700" sap2010:WorkflowViewState.IdRef="Sequence_214">
+                                                        <sap:WorkflowViewStateService.ViewState>
+                                                          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                          </scg:Dictionary>
+                                                        </sap:WorkflowViewStateService.ViewState>
+                                                        <If Condition="[row(&quot;相殺区分&quot;).ToString = &quot;A&quot; OrElse row(&quot;相殺区分&quot;).ToString = &quot;B&quot;]" DisplayName="条件分岐" sap:VirtualizedContainerService.HintSize="898,608" sap2010:WorkflowViewState.IdRef="If_114">
+                                                          <If.Then>
+                                                            <If Condition="[row(&quot;対象年月&quot;).ToString.Replace(&quot;/&quot;, &quot;&quot;) =  row_offset(&quot;対象年月&quot;).ToString]" DisplayName="条件分岐" sap:VirtualizedContainerService.HintSize="549,461" sap2010:WorkflowViewState.IdRef="If_113">
+                                                              <If.Then>
+                                                                <Sequence DisplayName="仮受No取得" sap:VirtualizedContainerService.HintSize="304,314" sap2010:WorkflowViewState.IdRef="Sequence_213">
+                                                                  <sap:WorkflowViewStateService.ViewState>
+                                                                    <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                                      <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                                    </scg:Dictionary>
+                                                                  </sap:WorkflowViewStateService.ViewState>
+                                                                  <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_216">
+                                                                    <Assign.To>
+                                                                      <OutArgument x:TypeArguments="x:Object">[row("仮受№")]</OutArgument>
+                                                                    </Assign.To>
+                                                                    <Assign.Value>
+                                                                      <InArgument x:TypeArguments="x:Object">[row_offset("仮受明細№").ToString]</InArgument>
+                                                                    </Assign.Value>
+                                                                  </Assign>
+                                                                  <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_217">
+                                                                    <Assign.To>
+                                                                      <OutArgument x:TypeArguments="x:Boolean">[isExist]</OutArgument>
+                                                                    </Assign.To>
+                                                                    <Assign.Value>
+                                                                      <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                                                    </Assign.Value>
+                                                                  </Assign>
+                                                                  <ui:Break DisplayName="繰り返しをブレーク" sap:VirtualizedContainerService.HintSize="262,22" sap2010:WorkflowViewState.IdRef="Break_3" />
+                                                                </Sequence>
+                                                              </If.Then>
+                                                              <If.Else>
+                                                                <ui:Continue DisplayName="繰り返しをコンティニュー" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Continue_3" />
+                                                              </If.Else>
+                                                            </If>
+                                                          </If.Then>
+                                                          <If.Else>
+                                                            <Sequence DisplayName="仮受No取得" sap:VirtualizedContainerService.HintSize="304,314" sap2010:WorkflowViewState.IdRef="Sequence_197">
+                                                              <sap:WorkflowViewStateService.ViewState>
+                                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                                </scg:Dictionary>
+                                                              </sap:WorkflowViewStateService.ViewState>
+                                                              <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_202">
+                                                                <Assign.To>
+                                                                  <OutArgument x:TypeArguments="x:Object">[row("仮受№")]</OutArgument>
+                                                                </Assign.To>
+                                                                <Assign.Value>
+                                                                  <InArgument x:TypeArguments="x:Object">[row_offset("仮受明細№").ToString]</InArgument>
+                                                                </Assign.Value>
+                                                              </Assign>
+                                                              <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_203">
+                                                                <Assign.To>
+                                                                  <OutArgument x:TypeArguments="x:Boolean">[isExist]</OutArgument>
+                                                                </Assign.To>
+                                                                <Assign.Value>
+                                                                  <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                                                </Assign.Value>
+                                                              </Assign>
+                                                              <ui:Break DisplayName="繰り返しをブレーク" sap:VirtualizedContainerService.HintSize="262,22" sap2010:WorkflowViewState.IdRef="Break_2" />
+                                                            </Sequence>
+                                                          </If.Else>
+                                                        </If>
+                                                      </Sequence>
+                                                    </If.Then>
+                                                    <If.Else>
+                                                      <ui:Continue DisplayName="繰り返しをコンティニュー" sap:VirtualizedContainerService.HintSize="200,22" sap2010:WorkflowViewState.IdRef="Continue_2" />
+                                                    </If.Else>
+                                                  </If>
+                                                </Sequence>
+                                              </ActivityAction>
+                                            </ui:ForEachRow.Body>
+                                          </ui:ForEachRow>
+                                          <If Condition="[isExist]" DisplayName="条件分岐" sap:VirtualizedContainerService.HintSize="1277,207" sap2010:WorkflowViewState.IdRef="If_106">
+                                            <If.Else>
+                                              <Assign DisplayName="仮受No取得エラー" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_204">
+                                                <Assign.To>
+                                                  <OutArgument x:TypeArguments="x:Object">[row("仮受№")]</OutArgument>
+                                                </Assign.To>
+                                                <Assign.Value>
+                                                  <InArgument x:TypeArguments="x:Object">["NG: 仮受Noが取得できません。"]</InArgument>
+                                                </Assign.Value>
+                                              </Assign>
+                                            </If.Else>
+                                          </If>
+                                        </Sequence>
+                                      </TryCatch.Try>
+                                      <TryCatch.Catches>
+                                        <Catch x:TypeArguments="s:Exception" sap:VirtualizedContainerService.HintSize="687,21" sap2010:WorkflowViewState.IdRef="Catch`1_4">
+                                          <sap:WorkflowViewStateService.ViewState>
+                                            <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                              <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                                              <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                            </scg:Dictionary>
+                                          </sap:WorkflowViewStateService.ViewState>
+                                          <ActivityAction x:TypeArguments="s:Exception">
+                                            <ActivityAction.Argument>
+                                              <DelegateInArgument x:TypeArguments="s:Exception" Name="exception" />
+                                            </ActivityAction.Argument>
+                                            <ui:WindowScope ApplicationWindow="{x:Null}" SearchScope="{x:Null}" TimeoutMS="{x:Null}" Window="{x:Null}" DisplayName="ターミナルウィンドウにアタッチする" sap:VirtualizedContainerService.HintSize="936,1817" sap2010:WorkflowViewState.IdRef="WindowScope_5" InformativeScreenshot="a893314d736af572051967c54ed91457" Selector="&lt;wnd app='acslaunch_win-64.exe' cls='SunAwtFrame' title='* - 5250 ディスプレイ' /&gt;">
+                                              <ui:WindowScope.Body>
+                                                <ActivityAction x:TypeArguments="x:Object">
+                                                  <ActivityAction.Argument>
+                                                    <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+                                                  </ActivityAction.Argument>
+                                                  <Sequence DisplayName="エラー発生時、復旧処理" sap:VirtualizedContainerService.HintSize="902,1671" sap2010:WorkflowViewState.IdRef="Sequence_202">
+                                                    <sap:WorkflowViewStateService.ViewState>
+                                                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                        <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                      </scg:Dictionary>
+                                                    </sap:WorkflowViewStateService.ViewState>
+                                                    <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="860,60" sap2010:WorkflowViewState.IdRef="Assign_205">
+                                                      <Assign.To>
+                                                        <OutArgument x:TypeArguments="x:Object">[row("判定")]</OutArgument>
+                                                      </Assign.To>
+                                                      <Assign.Value>
+                                                        <InArgument x:TypeArguments="x:Object">["想定外のエラー発生。詳細=[" + exception.Message + "]"]</InArgument>
+                                                      </Assign.Value>
+                                                    </Assign>
+                                                    <ui:SendHotkey ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" Activate="True" DisplayName="ホットキーで画面エラー状態解除" sap:VirtualizedContainerService.HintSize="860,154" sap2010:WorkflowViewState.IdRef="SendHotkey_3" Key="f3" KeyModifiers="None" SpecialKey="True">
+                                                      <ui:SendHotkey.Target>
+                                                        <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="c1944cbf-e7ab-4a31-bd57-afd46d31bd5e" InformativeScreenshot="1d563847bb5b582df75af34091c2c344" Selector="&lt;java idx='6' role='panel' /&gt;">
+                                                          <ui:Target.TimeoutMS>
+                                                            <InArgument x:TypeArguments="x:Int32" />
+                                                          </ui:Target.TimeoutMS>
+                                                          <ui:Target.WaitForReady>
+                                                            <InArgument x:TypeArguments="ui:WaitForReady" />
+                                                          </ui:Target.WaitForReady>
+                                                        </ui:Target>
+                                                      </ui:SendHotkey.Target>
+                                                      <sap:WorkflowViewStateService.ViewState>
+                                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                        </scg:Dictionary>
+                                                      </sap:WorkflowViewStateService.ViewState>
+                                                    </ui:SendHotkey>
+                                                    <Sequence DisplayName="サイン・オン画面まで戻る" sap:VirtualizedContainerService.HintSize="860,1285" sap2010:WorkflowViewState.IdRef="Sequence_201">
+                                                      <Sequence.Variables>
+                                                        <Variable x:TypeArguments="x:String" Name="tempText" />
+                                                        <Variable x:TypeArguments="x:Boolean" Name="doF3" />
+                                                      </Sequence.Variables>
+                                                      <sap:WorkflowViewStateService.ViewState>
+                                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                        </scg:Dictionary>
+                                                      </sap:WorkflowViewStateService.ViewState>
+                                                      <uit:TerminalGetTextAtPosition Column="33" DelayMS="300" DisplayName="現在表示画面を取得" sap:VirtualizedContainerService.HintSize="818,87" sap2010:WorkflowViewState.IdRef="TerminalGetTextAtPosition_5" Length="6" Row="1" Text="[tempText]" TimeoutMS="5000" WaitType="READY" />
+                                                      <Assign DisplayName="F3押下フラグをOn" sap:VirtualizedContainerService.HintSize="818,60" sap2010:WorkflowViewState.IdRef="Assign_206">
+                                                        <Assign.To>
+                                                          <OutArgument x:TypeArguments="x:Boolean">[doF3]</OutArgument>
+                                                        </Assign.To>
+                                                        <Assign.Value>
+                                                          <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                                        </Assign.Value>
+                                                      </Assign>
+                                                      <If Condition="[tempText.Trim = &quot;サイン・オン&quot;]" DisplayName="現在、「サイン・オン」画面か？" sap:VirtualizedContainerService.HintSize="818,839" sap2010:WorkflowViewState.IdRef="If_108">
+                                                        <If.Else>
+                                                          <ui:InterruptibleDoWhile Condition="[doF3]" DisplayName="「サイン・オン」画面までF3を押す" sap:VirtualizedContainerService.HintSize="647,692" sap2010:WorkflowViewState.IdRef="InterruptibleDoWhile_3">
+                                                            <ui:InterruptibleDoWhile.Body>
+                                                              <Sequence DisplayName="本体" sap:VirtualizedContainerService.HintSize="611,527" sap2010:WorkflowViewState.IdRef="Sequence_200">
+                                                                <sap:WorkflowViewStateService.ViewState>
+                                                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                                  </scg:Dictionary>
+                                                                </sap:WorkflowViewStateService.ViewState>
+                                                                <uit:TerminalSendControlKey DelayMS="1000" DisplayName="F3を送信" sap:VirtualizedContainerService.HintSize="569,61" sap2010:WorkflowViewState.IdRef="TerminalSendControlKey_14" Key="F3" TimeoutMS="5000" WaitType="READY" />
+                                                                <uit:TerminalGetTextAtPosition Column="33" DelayMS="300" DisplayName="現在表示画面を取得" sap:VirtualizedContainerService.HintSize="569,87" sap2010:WorkflowViewState.IdRef="TerminalGetTextAtPosition_6" Length="6" Row="1" Text="[tempText]" TimeoutMS="5000" WaitType="READY" />
+                                                                <If Condition="[tempText.Trim = &quot;サイン・オン&quot;]" DisplayName="現在、「サイン・オン」画面か？" sap:VirtualizedContainerService.HintSize="569,207" sap2010:WorkflowViewState.IdRef="If_107">
+                                                                  <If.Then>
+                                                                    <Assign DisplayName="F3終了" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_207">
+                                                                      <Assign.To>
+                                                                        <OutArgument x:TypeArguments="x:Boolean">[doF3]</OutArgument>
+                                                                      </Assign.To>
+                                                                      <Assign.Value>
+                                                                        <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                                                                      </Assign.Value>
+                                                                    </Assign>
+                                                                  </If.Then>
+                                                                  <If.Else>
+                                                                    <Assign DisplayName="F3続行" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_208">
+                                                                      <Assign.To>
+                                                                        <OutArgument x:TypeArguments="x:Boolean">[doF3]</OutArgument>
+                                                                      </Assign.To>
+                                                                      <Assign.Value>
+                                                                        <InArgument x:TypeArguments="x:Boolean">True</InArgument>
+                                                                      </Assign.Value>
+                                                                    </Assign>
+                                                                  </If.Else>
+                                                                </If>
+                                                              </Sequence>
+                                                            </ui:InterruptibleDoWhile.Body>
+                                                          </ui:InterruptibleDoWhile>
+                                                        </If.Else>
+                                                      </If>
+                                                      <ui:InvokeWorkflowFile ContinueOnError="{x:Null}" DisplayName="AS400再度ログイン" sap:VirtualizedContainerService.HintSize="818,87" sap2010:WorkflowViewState.IdRef="InvokeWorkflowFile_27" UnSafe="False" WorkflowFileName="AS400ログイン.xaml">
+                                                        <ui:InvokeWorkflowFile.Arguments>
+                                                          <InArgument x:TypeArguments="x:String" x:Key="signOnUser">tyukai</InArgument>
+                                                          <InArgument x:TypeArguments="x:String" x:Key="signOnPass">tyukai</InArgument>
+                                                          <InOutArgument x:TypeArguments="uit:TerminalConnection" x:Key="terminalConnection">[terminalSession]</InOutArgument>
+                                                          <InArgument x:TypeArguments="x:String" x:Key="logInPass">rk-maruo</InArgument>
+                                                          <InArgument x:TypeArguments="x:String" x:Key="logInUser">05080</InArgument>
+                                                        </ui:InvokeWorkflowFile.Arguments>
+                                                      </ui:InvokeWorkflowFile>
+                                                    </Sequence>
+                                                  </Sequence>
+                                                </ActivityAction>
+                                              </ui:WindowScope.Body>
+                                              <sap:WorkflowViewStateService.ViewState>
+                                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                                </scg:Dictionary>
+                                              </sap:WorkflowViewStateService.ViewState>
+                                            </ui:WindowScope>
+                                          </ActivityAction>
+                                        </Catch>
+                                      </TryCatch.Catches>
+                                    </TryCatch>
+                                  </ActivityAction>
+                                </ui:ForEachRow.Body>
+                                <sap:WorkflowViewStateService.ViewState>
+                                  <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                    <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                    <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                                  </scg:Dictionary>
+                                </sap:WorkflowViewStateService.ViewState>
+                              </ui:ForEachRow>
+                              <ui:WindowScope ApplicationWindow="{x:Null}" SearchScope="{x:Null}" TimeoutMS="{x:Null}" Window="{x:Null}" DisplayName="ウィンドウにアタッチ 'explorer.exe  相殺関連'" sap:VirtualizedContainerService.HintSize="771,306" sap2010:WorkflowViewState.IdRef="WindowScope_7" InformativeScreenshot="e2eef28661ae132aa1dbbf57fe03a99b" Selector="&lt;wnd app='explorer.exe' cls='CabinetWClass' title='相殺関連' /&gt;">
+                                <ui:WindowScope.Body>
+                                  <ActivityAction x:TypeArguments="x:Object">
+                                    <ActivityAction.Argument>
+                                      <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+                                    </ActivityAction.Argument>
+                                    <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="376,160" sap2010:WorkflowViewState.IdRef="Sequence_208">
+                                      <sap:WorkflowViewStateService.ViewState>
+                                        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                          <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                        </scg:Dictionary>
+                                      </sap:WorkflowViewStateService.ViewState>
+                                      <ui:CloseWindow Selector="{x:Null}" TimeoutMS="{x:Null}" UseWindow="{x:Null}" DisplayName="ウィンドウを閉じる" sap:VirtualizedContainerService.HintSize="334,68" sap2010:WorkflowViewState.IdRef="CloseWindow_2" WaitForReady="INTERACTIVE" />
+                                    </Sequence>
+                                  </ActivityAction>
+                                </ui:WindowScope.Body>
+                              </ui:WindowScope>
+                            </Sequence>
+                          </If.Then>
+                          <If.Else>
+                            <Assign DisplayName="仮受No取得エラー" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_209">
+                              <Assign.To>
+                                <OutArgument x:TypeArguments="x:Object">[inputDataList.Rows(0).Item("仮受№")]</OutArgument>
+                              </Assign.To>
+                              <Assign.Value>
+                                <InArgument x:TypeArguments="x:Object">["NG: チェックリスト出力エラー"]</InArgument>
+                              </Assign.Value>
+                            </Assign>
+                          </If.Else>
+                        </If>
+                      </Sequence>
+                    </If.Else>
+                  </If>
+                </Sequence>
+              </If.Then>
+              <If.Else>
+                <Assign DisplayName="仮受No取得エラー" sap:VirtualizedContainerService.HintSize="262,60" sap2010:WorkflowViewState.IdRef="Assign_211">
+                  <Assign.To>
+                    <OutArgument x:TypeArguments="x:Object">[inputDataList.Rows(0).Item("仮受№")]</OutArgument>
+                  </Assign.To>
+                  <Assign.Value>
+                    <InArgument x:TypeArguments="x:Object">["NG: 仮受No取得対象がありません。"]</InArgument>
+                  </Assign.Value>
+                </Assign>
+              </If.Else>
+            </If>
+            <ui:Click AlterIfDisabled="{x:Null}" DelayBefore="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateClick="{x:Null}" ClickType="CLICK_SINGLE" DisplayName="クリック 'panel'" sap:VirtualizedContainerService.HintSize="2073,106" sap2010:WorkflowViewState.IdRef="Click_3" KeyModifiers="None" MouseButton="BTN_LEFT">
+              <ui:Click.CursorPosition>
+                <ui:CursorPosition Position="Center">
+                  <ui:CursorPosition.OffsetX>
+                    <InArgument x:TypeArguments="x:Int32" />
+                  </ui:CursorPosition.OffsetX>
+                  <ui:CursorPosition.OffsetY>
+                    <InArgument x:TypeArguments="x:Int32" />
+                  </ui:CursorPosition.OffsetY>
+                </ui:CursorPosition>
+              </ui:Click.CursorPosition>
+              <ui:Click.Target>
+                <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="f3e841fc-d2f3-484d-bb26-9d684841aab9" InformativeScreenshot="f865702ea1959fc24b4ac8cbb0cdb76e" Selector="&lt;wnd app='acslaunch_win-64.exe' cls='SunAwtFrame' title='*- 5250 ディスプレイ' /&gt;&lt;java idx='6' role='panel' /&gt;">
+                  <ui:Target.TimeoutMS>
+                    <InArgument x:TypeArguments="x:Int32" />
+                  </ui:Target.TimeoutMS>
+                  <ui:Target.WaitForReady>
+                    <InArgument x:TypeArguments="ui:WaitForReady" />
+                  </ui:Target.WaitForReady>
+                </ui:Target>
+              </ui:Click.Target>
+            </ui:Click>
+            <Sequence DisplayName="logging用(問題がわかれば削除)" sap:VirtualizedContainerService.HintSize="2073,546" sap2010:WorkflowViewState.IdRef="Sequence_212">
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+              <Assign DisplayName="代入" sap:VirtualizedContainerService.HintSize="505,60" sap2010:WorkflowViewState.IdRef="Assign_215">
+                <Assign.To>
+                  <OutArgument x:TypeArguments="x:Boolean">[isAppeared]</OutArgument>
+                </Assign.To>
+                <Assign.Value>
+                  <InArgument x:TypeArguments="x:Boolean">False</InArgument>
+                </Assign.Value>
+              </Assign>
+              <ui:UiElementExists DisplayName="要素の有無を検出 'explorer.exe  相殺関連'" Exists="[isAppeared]" sap:VirtualizedContainerService.HintSize="505,106" sap2010:WorkflowViewState.IdRef="UiElementExists_4">
+                <ui:UiElementExists.Target>
+                  <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" Id="27de860e-a842-41b2-9816-62b511ca8f8f" InformativeScreenshot="d4750a57df209e85de6391df714ead25" Selector="&lt;wnd app='acslaunch_win-64.exe' cls='SunAwtFrame' title='*- 5250 ディスプレイ' /&gt;" TimeoutMS="5000">
+                    <ui:Target.WaitForReady>
+                      <InArgument x:TypeArguments="ui:WaitForReady" />
+                    </ui:Target.WaitForReady>
+                  </ui:Target>
+                </ui:UiElementExists.Target>
+              </ui:UiElementExists>
+              <If Condition="[isAppeared]" DisplayName="条件分岐" sap:VirtualizedContainerService.HintSize="505,208" sap2010:WorkflowViewState.IdRef="If_112">
+                <If.Then>
+                  <WriteLine DisplayName="1 行を書き込み" sap:VirtualizedContainerService.HintSize="230,61" sap2010:WorkflowViewState.IdRef="WriteLine_1" Text="AS400画面あり" />
+                </If.Then>
+                <If.Else>
+                  <WriteLine DisplayName="1 行を書き込み" sap:VirtualizedContainerService.HintSize="230,61" sap2010:WorkflowViewState.IdRef="WriteLine_2" Text="AS400画面なし" />
+                </If.Else>
+              </If>
+            </Sequence>
+            <ui:WindowScope ApplicationWindow="{x:Null}" SearchScope="{x:Null}" TimeoutMS="{x:Null}" Window="{x:Null}" DisplayName="ターミナルウィンドウにアタッチする" sap:VirtualizedContainerService.HintSize="2073,197" sap2010:WorkflowViewState.IdRef="WindowScope_6" InformativeScreenshot="963c46ebe7cbe2f52df25e2d44ed5285" Selector="&lt;wnd app='acslaunch_win-64.exe' cls='SunAwtFrame' title='*- 5250 ディスプレイ' /&gt;">
+              <ui:WindowScope.Body>
+                <ActivityAction x:TypeArguments="x:Object">
+                  <ActivityAction.Argument>
+                    <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+                  </ActivityAction.Argument>
+                  <uit:TerminalSendControlKey DelayMS="1000" DisplayName="ログインメニューへ戻る" sap:VirtualizedContainerService.HintSize="200,51" sap2010:WorkflowViewState.IdRef="TerminalSendControlKey_10" Key="F3" TimeoutMS="5000" WaitType="READY">
+                    <sap:WorkflowViewStateService.ViewState>
+                      <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                        <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+                        <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                      </scg:Dictionary>
+                    </sap:WorkflowViewStateService.ViewState>
+                  </uit:TerminalSendControlKey>
+                </ActivityAction>
+              </ui:WindowScope.Body>
+              <sap:WorkflowViewStateService.ViewState>
+                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                  <x:Boolean x:Key="IsPinned">False</x:Boolean>
+                </scg:Dictionary>
+              </sap:WorkflowViewStateService.ViewState>
+            </ui:WindowScope>
+          </Sequence>
+        </ActivityAction>
+      </uit:TerminalSession.Body>
+    </uit:TerminalSession>
+    <ui:WindowScope ApplicationWindow="{x:Null}" SearchScope="{x:Null}" TimeoutMS="{x:Null}" Window="{x:Null}" DisplayName="AS400ターミナルウィンドウにアタッチ" sap:VirtualizedContainerService.HintSize="2149,51" sap2010:WorkflowViewState.IdRef="WindowScope_2" InformativeScreenshot="5073826ff599d1b33899bbde2a7e18ea" Selector="&lt;wnd app='acslaunch_win-64.exe' cls='SunAwtFrame' title='*- 5250 ディスプレイ' /&gt;">
+      <ui:WindowScope.Body>
+        <ActivityAction x:TypeArguments="x:Object">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
+          </ActivityAction.Argument>
+          <ui:CloseWindow Selector="{x:Null}" TimeoutMS="{x:Null}" UseWindow="{x:Null}" DisplayName="ウィンドウを閉じる" sap:VirtualizedContainerService.HintSize="334,106" sap2010:WorkflowViewState.IdRef="CloseWindow_1" InformativeScreenshot="5073826ff599d1b33899bbde2a7e18ea" WaitForReady="INTERACTIVE" />
+        </ActivityAction>
+      </ui:WindowScope.Body>
+      <sap:WorkflowViewStateService.ViewState>
+        <scg:Dictionary x:TypeArguments="x:String, x:Object">
+          <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+          <x:Boolean x:Key="IsPinned">False</x:Boolean>
+        </scg:Dictionary>
+      </sap:WorkflowViewStateService.ViewState>
+    </ui:WindowScope>
+  </Sequence>
+</Activity>
